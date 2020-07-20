@@ -19,6 +19,7 @@ objects:
       metadata:
         labels:
           traffic: "true"
+      paused: true
       spec:
         containers:
           - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/${IMAGE_NAME}
