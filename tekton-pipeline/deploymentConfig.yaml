@@ -12,7 +12,7 @@ spec:
         traffic: "true"
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc:5000/development-tosin/welcome-php
+        - image: image-registry.openshift-image-registry.svc:5000/$(params.QA_PROJ)/welcome-php
           imagePullPolicy: Always
           name: welcome-php
           ports:
