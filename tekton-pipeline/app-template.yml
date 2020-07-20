@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: welcome-php-template
+  annotations:
+    description: "Sample PHP welcome application"
+    iconClass: "icon-php"
+    tags: "sample-php-application"
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${APP_NAME}-dc
+  spec:
+    replicas: 1
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          traffic: "true"
+      spec:
+        containers:
+          - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/${IMAGE_NAME}
+            imagePullPolicy: Always
+            name: ${IMAGE_NAME}
+            ports:
+              - containerPort: 8080
+                protocol: "TCP"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+      app.kubernetes.io/component: ${APP_NAME}
+      app.kubernetes.io/instance: ${APP_NAME}
+      app.kubernetes.io/name: php
+      app.kubernetes.io/part-of: ${APP_NAME}
+  spec:
+    selector:
+      traffic: "true"
+    ports:
+      - name: 8080-tcp
+        protocol: TCP
+        port: 8080
+        targetPort: 8080
+      - name: 8443-tcp
+        protocol: TCP
+        port: 8443
+        targetPort: 8443
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${APP_NAME}
+  spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${APP_NAME}
+      weight: 100
+parameters:
+- description: PHP application name 
+  value: welcome-php
+  name: APP_NAME
+- description: openshift project
+  value: development
+  name: PROJECT_NAME
+- description: image name 
+  value: welcome-php
+  name: IMAGE_NAME
