@@ -1,11 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tektoncd-nodejs-tutorial-service
+  name: php-app
+  labels:
+    app: php-app
+    app.kubernetes.io/component: php-app
+    app.kubernetes.io/instance: php-app
+    app.kubernetes.io/name: php
+    app.kubernetes.io/part-of: php-app
 spec:
   selector:
     traffic: "true"
   ports:
-    - port: 8080
+    - name: 8080-tcp
       protocol: TCP
+      port: 8080
       targetPort: 8080
+    - name: 8443-tcp
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
