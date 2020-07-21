@@ -2,10 +2,10 @@
 
 set -xe 
 
-echo "Configuring  projects"
+echo "Configuring  project"
 
 
-if [ $# -ne 1 ];
+if [ $# -ne 3 ];
 then
   echo "Please pass projectname"
   echo "USAGE: $0 projectname appname create"
@@ -21,7 +21,7 @@ fi
 
 PROJECT_NAME=${1}
 APP_NAME=${2}
-CREATE_DELETE=#{3}
+CREATE_DELETE=${3}
 
 cat >deploymentConfig.yaml<<EOF
 apiVersion: v1
@@ -31,7 +31,8 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate
+    type: Rolling
+  paused: true
   template:
     metadata:
       labels:
@@ -39,9 +40,9 @@ spec:
         app: ${APP_NAME}
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/welcome-php
+        - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/${APP_NAME}-php
           imagePullPolicy: Always
-          name: welcome-php
+          name: ${APP_NAME}-php
           ports:
             - containerPort: 8080
               protocol: "TCP"
@@ -87,6 +88,6 @@ spec:
 EOF
 
 
-oc create -f deploymentConfig.yaml -n $PROJECT_NAME
-oc create -f services.yaml -n $PROJECT_NAME
-oc create -f route.yaml -n $PROJECT_NAME
+oc ${CREATE_DELETE} -f deploymentConfig.yaml -n $PROJECT_NAME
+oc ${CREATE_DELETE} -f services.yaml -n $PROJECT_NAME
+oc ${CREATE_DELETE} -f route.yaml -n $PROJECT_NAME
