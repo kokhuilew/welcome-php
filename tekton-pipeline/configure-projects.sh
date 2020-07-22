@@ -32,7 +32,6 @@ spec:
   replicas: 1
   strategy:
     type: Rolling
-  paused: true
   template:
     metadata:
       labels:
@@ -40,9 +39,9 @@ spec:
         app: ${APP_NAME}
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/${APP_NAME}-php
+        - image: image-registry.openshift-image-registry.svc:5000/${PROJECT_NAME}/${APP_NAME}
           imagePullPolicy: Always
-          name: ${APP_NAME}-php
+          name: ${APP_NAME}
           ports:
             - containerPort: 8080
               protocol: "TCP"
