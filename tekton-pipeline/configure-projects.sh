@@ -29,7 +29,7 @@ kind: DeploymentConfig
 metadata:
   name: ${APP_NAME}-dc
 spec:
-  replicas: 1
+  replicas: 0
   strategy:
     type: Rolling
   template:
