@@ -47,7 +47,7 @@ spec:
           value:
             - rollout
             - latest
-            - dc/$(params.APP_NAME)-dc
+            - dc/$(params.APP_NAME)
             - '-n'
             - $(params.DEV_PROJ)
       resources:
@@ -76,7 +76,7 @@ spec:
         - name: ARGS
           value:
             - patch
-            - dc/$(params.APP_NAME)-dc
+            - dc/$(params.APP_NAME)
             - $(params.PATCH_IMAGE)
             - '-n'
             - $(params.QA_PROJ)
@@ -91,7 +91,7 @@ spec:
           value:
             - rollout
             - latest
-            - dc/$(params.APP_NAME)-dc
+            - dc/$(params.APP_NAME)
             - '-n'
             - $(params.QA_PROJ)
       resources:
