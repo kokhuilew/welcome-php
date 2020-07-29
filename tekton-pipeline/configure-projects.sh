@@ -27,7 +27,7 @@ cat >deploymentConfig.yaml<<EOF
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
-  name: ${APP_NAME}-dc
+  name: ${APP_NAME}
 spec:
   replicas: 0
   strategy:
