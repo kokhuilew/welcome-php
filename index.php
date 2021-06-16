@@ -1,1 +1,1 @@
-<h1> Green deployment
+<h1> Blue deployment
